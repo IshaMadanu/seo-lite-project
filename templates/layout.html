@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}project title{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('recommendations') }}">Recommendations</a>
+        <a href="{{ url_for('route') }}">Route</a>
+    </nav>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

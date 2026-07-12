@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+  <h1>Your profile</h1>
+
+  <h2>Preferences</h2>
+  <form>
+    <label>
+      <input type="checkbox" name="interest" value="animals"> Animals
+    </label>
+    <label>
+      <input type="checkbox" name="interest" value="environment"> Environment
+    </label>
+    <label>
+      <input type="checkbox" name="interest" value="education"> Education
+    </label>
+
+    <button type="submit">Save preferences</button>
+  </form>
+{% endblock %}

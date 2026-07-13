@@ -1,7 +1,11 @@
+import os
 from flask import Flask, render_template
+from dotenv import load_dotenv
+
+load_dotenv()
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/") # methods=['GET', 'POST']
 @app.route("/login")
 
 def login():
@@ -16,7 +20,6 @@ def profile():
 def recommendations():
     #call llm w buser pref from DB
 
-
     dummy_nonprofits = [
         {"name": " Nonprofit 1", "reason": "Matches: animals"},
         {"name": " Nonprofit 2", "reason": "Matches: environment"},
@@ -28,8 +31,10 @@ def recommendations():
 @app.route("/route")
 def route():
     #googlemaps api for dir
+    maps_key = os.environ.get("MAPS_API_KEY")
 
-    return render_template("route.html")
+
+    return render_template("route.html", maps_api_key=maps_key)
 
 
 if __name__ == '__main__':

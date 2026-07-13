@@ -89,3 +89,15 @@ button:hover {
   justify-content: center;
   color: #363434;
 }
+
+.travel-modes button.active {
+  background: #2c2c2a;
+  color: #fff;
+  border-color: #2c2c2a;
+}
+
+#route-info {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #333;
+}

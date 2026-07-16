@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}project title{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>{% block title %}Volunteer Match{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('profile') }}">Profile</a>
-        <a href="{{ url_for('recommendations') }}">Recommendations</a>
-        <a href="{{ url_for('route') }}">Route</a>
-    </nav>
+  <nav class="navbar">
+    <span class="brand">VolunteerMatch</span>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('recommendations') }}">Recommendations</a>
+    <a href="{{ url_for('route') }}">Route</a>
+    {% if session.get('user_email') %}
+      <a href="{{ url_for('logout') }}" style="margin-left: auto;">Log out</a>
+    {% endif %}
+  </nav>
 
+  <main class="content">
     {% block content %}{% endblock %}
+  </main>
 </body>
 </html>

@@ -1,0 +1,309 @@
+:root {
+  --green-900: #14532d;
+  --green-700: #1e7a3d;
+  --green-500: #2e9c4f;
+  --green-100: #e6f4ea;
+  --bg: #f7faf8;
+  --surface: #ffffff;
+  --text: #1b241d;
+  --text-muted: #5b6b5e;
+  --border: #d9e6dc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+/* Header / nav */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--green-900);
+}
+
+.navbar .brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  margin-right: 24px;
+  letter-spacing: 0.2px;
+}
+
+.navbar a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navbar a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Page container */
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin: 0 0 4px;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+
+.ts {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+/* Cards (shared surface style) */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* Profile header */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--green-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-700);
+}
+
+.profile-info h1 {
+  margin: 0;
+}
+
+.profile-info .ts {
+  margin: 2px 0 0;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 360px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label.checkbox-label {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--surface);
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  outline: 2px solid var(--green-500);
+  outline-offset: 1px;
+  border-color: var(--green-500);
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--green-700);
+}
+
+/* Buttons */
+button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  background: var(--green-700);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover {
+  background: var(--green-900);
+}
+
+/* Travel mode buttons (secondary/toggle style) */
+.travel-modes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.travel-modes button {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.travel-modes button:hover {
+  background: var(--green-100);
+}
+
+.travel-modes button.active {
+  background: var(--green-700);
+  color: #fff;
+  border-color: var(--green-700);
+}
+
+.travel-modes button.eco-best {
+  border: 2px solid var(--green-500);
+  position: relative;
+}
+
+.travel-modes button.eco-best::after {
+  content: "\1F331";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 12px;
+}
+
+/* Nonprofit list */
+.nonprofit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nonprofit-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.nonprofit-list li strong {
+  display: block;
+  font-size: 15px;
+  color: var(--green-900);
+  margin-bottom: 4px;
+}
+
+.nonprofit-list li p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.nonprofit-list li a {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-700);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--green-700);
+  border-radius: 6px;
+}
+
+.nonprofit-list li a:hover {
+  background: var(--green-700);
+  color: #fff;
+}
+
+/* Map + route info */
+#map {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+#route-info p {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.eco-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.eco-list li {
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--green-100);
+  border-radius: 8px;
+  padding: 8px 12px;
+}

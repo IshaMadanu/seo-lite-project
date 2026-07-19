@@ -6,16 +6,19 @@ the DYNAMODB_ENDPOINT env var (set it empty to use real AWS endpoints).
 Tables:
   users          - username (S, HASH) -> password_hash
   user_interests - username (S, HASH) -> interests (list of strings)
+  nonprofits     - category (S, HASH) + rank (N, RANGE) -> name, city, revenue, ...
 """
 
 import os
 
 import boto3
+from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 USERS_TABLE = "users"
 INTERESTS_TABLE = "user_interests"
+NONPROFITS_TABLE = "nonprofits"
 
 
 def get_resource():
@@ -30,7 +33,7 @@ def get_resource():
 
 
 def create_tables(resource=None):
-    """Create both tables if they don't already exist."""
+    """Create the tables if they don't already exist."""
     resource = resource or get_resource()
     existing = {t.name for t in resource.tables.all()}
     for name in (USERS_TABLE, INTERESTS_TABLE):
@@ -41,6 +44,20 @@ def create_tables(resource=None):
             KeySchema=[{"AttributeName": "username", "KeyType": "HASH"}],
             AttributeDefinitions=[
                 {"AttributeName": "username", "AttributeType": "S"}
+            ],
+            BillingMode="PAY_PER_REQUEST",
+        )
+        table.wait_until_exists()
+    if NONPROFITS_TABLE not in existing:
+        table = resource.create_table(
+            TableName=NONPROFITS_TABLE,
+            KeySchema=[
+                {"AttributeName": "category", "KeyType": "HASH"},
+                {"AttributeName": "rank", "KeyType": "RANGE"},
+            ],
+            AttributeDefinitions=[
+                {"AttributeName": "category", "AttributeType": "S"},
+                {"AttributeName": "rank", "AttributeType": "N"},
             ],
             BillingMode="PAY_PER_REQUEST",
         )
@@ -111,6 +128,24 @@ def get_interests(resource, username):
         Key={"username": username}
     ).get("Item")
     return item["interests"] if item else []
+
+
+# ---- nonprofits ----
+
+def seed_nonprofits(resource, nonprofits):
+    """Load nonprofit records (dicts with a category and rank) into the table."""
+    with resource.Table(NONPROFITS_TABLE).batch_writer() as batch:
+        for org in nonprofits:
+            batch.put_item(Item=org)
+
+
+def get_nonprofits_by_category(resource, category, limit=5):
+    """Top nonprofits for one category, ordered by overall revenue rank."""
+    items = resource.Table(NONPROFITS_TABLE).query(
+        KeyConditionExpression=Key("category").eq(category),
+        Limit=limit,
+    ).get("Items", [])
+    return items
 
 
 def add_interests(resource, username, interests):

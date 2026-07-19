@@ -1,6 +1,9 @@
+import json
 import os
 from dotenv import load_dotenv
 from functools import wraps
+from itertools import zip_longest
+from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, session
 
 import dynamo
@@ -8,6 +11,9 @@ import dynamo
 load_dotenv()
 
 INTEREST_OPTIONS = ["animals", "environment", "education"]
+
+# top 100 NYC nonprofits by revenue (IRS BMF; see scripts/build_nonprofits.py)
+NONPROFITS_FILE = Path(__file__).parent / "data" / "nonprofits.json"
 
 # seeded so the test login on the login page keeps working
 TEST_USER = {
@@ -35,6 +41,7 @@ def create_app(resource=None):
     dynamo.create_user(
         db, TEST_USER["email"], TEST_USER["password"], name=TEST_USER["name"]
     )
+    dynamo.seed_nonprofits(db, json.loads(NONPROFITS_FILE.read_text()))
 
     @app.route("/", methods=['GET', 'POST'])
     @app.route("/login", methods=['GET', 'POST'])
@@ -89,11 +96,21 @@ def create_app(resource=None):
     def recommendations():
         interests = dynamo.get_interests(db, session['user_email'])
 
-        # placeholder until the LLM call: one dummy nonprofit per saved interest
-        nonprofits = [
-            {"name": f"Nonprofit {n}", "reason": f"Matches: {interest}"}
-            for n, interest in enumerate(interests, start=1)
+        # round-robin across interests so no single category crowds out
+        # the others; each category list arrives sorted by revenue rank
+        per_interest = [
+            [
+                {"name": org["name"].title(), "reason": f"Matches: {interest}"}
+                for org in dynamo.get_nonprofits_by_category(db, interest)
+            ]
+            for interest in interests
         ]
+        nonprofits = [
+            org
+            for round_ in zip_longest(*per_interest)
+            for org in round_
+            if org is not None
+        ][:5]
 
         return render_template(
             "recommendations.html", nonprofits=nonprofits, interests=interests

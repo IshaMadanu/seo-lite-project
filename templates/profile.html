@@ -2,33 +2,56 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 
-  <div class="profile-header card">
-    <div class="avatar">
-      {% if user and user.avatar_url %}
-        <img src="{{ user.avatar_url }}" alt="{{ user.name }}'s profile picture">
-      {% else %}
-        <span class="avatar-initials">{{ (user.name if user else "Jane Doe")[:1] }}</span>
-      {% endif %}
-    </div>
-    <div class="profile-info">
-      <h1>{{ user.name if user else "Jane Doe" }}</h1>
-      <p class="ts">{{ user.email if user else "jane.doe@example.com" }}</p>
-    </div>
+  <div class="content-header">
+    <h1>Welcome, {{ user.name if user else "Jane Doe" }}!</h1>
+    <a href="{{ url_for('recommendations') }}" class="btn">Find Nonprofits</a>
   </div>
 
-  <h2>Preferences</h2>
-  {% if saved %}
-    <p class="ts">Preferences saved.</p>
-  {% endif %}
-  <form method="POST" class="card">
-    {% for option in options %}
-      <label class="checkbox-label">
-        <input type="checkbox" name="interest" value="{{ option }}"
-               {% if option in interests %}checked{% endif %}> {{ option | capitalize }}
-      </label>
-    {% endfor %}
+  <div class="profile-grid">
+    <div>
+      <div class="stats-row">
+        <div class="card stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Volunteer Hours</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Nonprofits Visited</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">CO2 Saved</div>
+        </div>
+      </div>
 
-    <button type="submit">Save preferences</button>
-  </form>
+      <div class="card">
+        <h2>Preferences</h2>
+        <p class="ts">Activities of Interest?</p>
+        {% if saved %}
+          <p class="ts">Preferences saved.</p>
+        {% endif %}
+
+        <form method="POST">
+          <div class="pref-options">
+            {% for option in options %}
+              <label class="pill {% if option in interests %}selected{% endif %}">
+                <input type="checkbox" name="interest" value="{{ option }}"
+                       {% if option in interests %}checked{% endif %}
+                       onchange="this.closest('label').classList.toggle('selected', this.checked)">
+                {{ option | capitalize }}
+              </label>
+            {% endfor %}
+          </div>
+
+          <button type="submit">Save preferences</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recent Activity</h2>
+      <p class="empty-state">No activity yet. Once you visit a nonprofit, it'll show up here.</p>
+    </div>
+  </div>
 
 {% endblock %}

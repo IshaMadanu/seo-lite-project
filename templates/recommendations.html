@@ -1,20 +1,36 @@
 {% extends "layout.html" %}
 {% block title %}Recommendations{% endblock %}
 {% block content %}
-  <h1>Your top 5 nonprofits:</h1>
+
+  <div class="content-header">
+    <h1>Recommended Opportunities</h1>
+    <a href="{{ url_for('profile') }}" class="btn">Edit Preferences</a>
+  </div>
 
   {% if not interests %}
-    <p class="ts">No preferences saved yet —
-      <a href="{{ url_for('profile') }}">pick some interests</a> to get matches.</p>
+    <div class="card">
+      <p class="ts">No preferences saved yet —
+        <a href="{{ url_for('profile') }}">pick some interests</a> to get matches.</p>
+    </div>
+  {% else %}
+    <div class="chip-row">
+      {% for interest in interests %}
+        <span class="chip">{{ interest | capitalize }}</span>
+      {% endfor %}
+    </div>
+
+    <ul class="nonprofit-list">
+      {% for nonprofit in nonprofits %}
+        <li>
+          <div class="nonprofit-thumb">{{ nonprofit.name[:1] }}</div>
+          <div class="nonprofit-info">
+            <strong>{{ nonprofit.name }}</strong>
+            <p class="ts">{{ nonprofit.reason }}</p>
+          </div>
+          <a href="{{ url_for('route') }}" class="see-route">See Route</a>
+        </li>
+      {% endfor %}
+    </ul>
   {% endif %}
 
-  <ul class="nonprofit-list">
-    {% for nonprofit in nonprofits %}
-      <li>
-        <strong>{{ nonprofit.name }}</strong>
-        <p>{{ nonprofit.reason }}</p>
-        <a href="{{url_for('route')}}">See route</a>
-      </li>
-    {% endfor %}
-  </ul>
 {% endblock %}

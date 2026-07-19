@@ -1,80 +1,88 @@
 {% extends "layout.html" %}
-{% block title %}Route{% endblock %}
+{% block title %}Routes{% endblock %}
 {% block content %}
-  <h1>Optimal Route</h1>
+  <h1>Routes</h1>
 
-  <div class="travel-modes">
-    <button type="button" id="btn-DRIVING" onclick="selectMode('DRIVING')">Car</button>
-    <button type="button" id="btn-TRANSIT" onclick="selectMode('TRANSIT')">Bus</button>
-    <button type="button" id="btn-WALKING" onclick="selectMode('WALKING')">Walk</button>
-    <button type="button" id="btn-BICYCLING" onclick="selectMode('BICYCLING')">Bike</button>
+  <div class="route-grid">
+    <div class="card">
+      <div class="route-name-card">Nonprofit Name</div>
+
+      <div class="travel-modes">
+        <button type="button" class="mode-btn" id="btn-WALKING" onclick="selectMode('WALKING')">
+          Walk <span class="mode-time" id="time-WALKING">--</span>
+        </button>
+        <button type="button" class="mode-btn" id="btn-BICYCLING" onclick="selectMode('BICYCLING')">
+          Bike <span class="mode-time" id="time-BICYCLING">--</span>
+        </button>
+        <button type="button" class="mode-btn" id="btn-DRIVING" onclick="selectMode('DRIVING')">
+          Car <span class="mode-time" id="time-DRIVING">--</span>
+        </button>
+        <button type="button" class="mode-btn" id="btn-TRANSIT" onclick="selectMode('TRANSIT')">
+          Transit <span class="mode-time" id="time-TRANSIT">--</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="map" style="height: 440px; width: 100%">Map</div>
   </div>
-
-  <div id="map" style="height: 400px; width: 100%">
-    Map
-  </div>
-
-  <div id="route-info"></div>
 
   <script>
+    const ORIGIN = "Times Square, New York, NY";
+    const DESTINATION = "Central Park, New York, NY";
+    const MODES = ["WALKING", "BICYCLING", "DRIVING", "TRANSIT"];
+
     let map;
     let directionsService;
     let directionsRenderer;
-    
-    function initMap() {
+    let activeMode = "DRIVING";
 
+    function initMap() {
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer();
 
         map = new google.maps.Map(document.getElementById("map"), {
-            center: {lat:  40.7128, lng: -74.006},
+            center: { lat: 40.7128, lng: -74.006 },
             zoom: 10
         });
-
         directionsRenderer.setMap(map);
 
-        document.getElementById('btn-DRIVING').classList.add('active')
-        calculateRoute("Times Square, New York, NY", "Central Park, New York, NY", "DRIVING");
+        MODES.forEach(mode => fetchModeTime(mode));
 
+        selectMode(activeMode);
     }
-    function calculateRoute(start, end, mode) {
-        var request = {
-            origin: start,
-            destination: end,
-            travelMode: google.maps.TravelMode[mode]
-        };
 
-        directionsService.route(request, function(result, status){
-            if (status == 'OK') {
-                directionsRenderer.setDirections(result);
-                displayRoute(result);
-            } else {
-                console.error("Direction request error:", status);
+    function fetchModeTime(mode) {
+        directionsService.route(
+            { origin: ORIGIN, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+            function (result, status) {
+                const timeEl = document.getElementById('time-' + mode);
+                if (status === 'OK') {
+                    timeEl.textContent = result.routes[0].legs[0].duration.text;
+                } else {
+                    timeEl.textContent = 'N/A';
+                }
             }
-        });
+        );
     }
 
     function selectMode(mode) {
-        document.querySelectorAll('.travel-modes button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-' + mode).classList.add('active');
-        calculateRoute("Times Square, New York, NY", "Central Park, New York, NY", mode);
 
-    }
-
-    function displayRoute(result) {
-        var leg = result.routes[0].legs[0];
-        var eta = leg.duration.text;
-        var dist = leg.distance.text;
-
-        document.getElementById('route-info').innerHTML = 
-            `<p><strong>${eta}</strong> · ${dist}</p>`;
+        directionsService.route(
+            { origin: ORIGIN, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+            function (result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);
+                } else {
+                    console.error("Direction request error:", status);
+                }
+            }
+        );
     }
   </script>
 
   <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&loading=async" async></script>
-
 
 {% endblock %}

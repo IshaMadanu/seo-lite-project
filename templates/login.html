@@ -1,23 +1,30 @@
 {% extends "layout.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Log in{% endblock %}
 {% block content %}
-  <h1>Log in</h1>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <h1>Log in</h1>
+      <p class="ts" style="margin-bottom: 20px;">Welcome back to VolunteerMatch</p>
 
-  {% if error %}
-    <p class="error-text">{{ error }}</p>
-  {% endif %}
+      {% if error %}
+        <p class="error-text">{{ error }}</p>
+      {% endif %}
 
-  <form method="POST" class="card">
-    <label for="email">Email
-      <input type="email" id="email" name="email" placeholder="name@example.com" required>
-    </label>
+      <form method="POST">
+        <label for="email">Email
+          <input type="email" id="email" name="email" placeholder="name@example.com" required>
+        </label>
 
-    <label for="password">Password
-      <input type="password" id="password" name="password" required>
-    </label>
+        <label for="password">Password
+          <input type="password" id="password" name="password" required>
+        </label>
 
-    <button type="submit">Log in</button>
-  </form>
+        <button type="submit">Log in</button>
+      </form>
 
-  <p class="ts">Test login: jane.doe@example.com / password123</p>
+      <p class="ts" style="margin-top: 16px; text-align: center;">
+        Test login: jane.doe@example.com / password123
+      </p>
+    </div>
+  </div>
 {% endblock %}

@@ -2,7 +2,12 @@
 {% block title %}Recommendations{% endblock %}
 {% block content %}
   <h1>Your top 5 nonprofits:</h1>
- 
+
+  {% if not interests %}
+    <p class="ts">No preferences saved yet —
+      <a href="{{ url_for('profile') }}">pick some interests</a> to get matches.</p>
+  {% endif %}
+
   <ul class="nonprofit-list">
     {% for nonprofit in nonprofits %}
       <li>

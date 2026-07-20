@@ -9,8 +9,8 @@
 
   {% if not interests %}
     <div class="card">
-      <p class="ts">No preferences saved yet —
-        <a href="{{ url_for('profile') }}">pick some interests</a> to get matches.</p>
+      <p class="ts">No preferences saved —
+        <a href="{{ url_for('profile') }}">pick your interests</a> to get matches.</p>
     </div>
   {% else %}
     <div class="chip-row">
@@ -27,7 +27,7 @@
             <strong>{{ nonprofit.name }}</strong>
             <p class="ts">{{ nonprofit.reason }}</p>
           </div>
-          <a href="{{ url_for('route') }}" class="see-route">See Route</a>
+          <a href="{{ url_for('route', name=nonprofit.name, city=nonprofit.city) }}" class="see-route">See Route</a>
         </li>
       {% endfor %}
     </ul>

@@ -243,7 +243,6 @@ button:hover, .btn:hover { background: var(--green-dark); }
   padding: 20px 8px;
 }
 
-/* ---------- Recommendations page ---------- */
 .chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -346,6 +345,11 @@ button:hover, .btn:hover { background: var(--green-dark); }
   color: #fff;
 }
 .mode-btn.active .mode-time { color: #eaf0e6; }
+
+.mode-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 #map {
   border-radius: var(--radius);

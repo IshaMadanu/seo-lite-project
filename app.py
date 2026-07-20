@@ -100,7 +100,11 @@ def create_app(resource=None):
         # the others; each category list arrives sorted by revenue rank
         per_interest = [
             [
-                {"name": org["name"].title(), "reason": f"Matches: {interest}"}
+                {
+                    "name": org["name"].title(),
+                    "city": org.get("city", ""),
+                    "reason": f"Matches: {interest}",
+                }
                 for org in dynamo.get_nonprofits_by_category(db, interest)
             ]
             for interest in interests
@@ -122,7 +126,15 @@ def create_app(resource=None):
         #googlemaps api for dir
         maps_key = os.environ.get("MAPS_API_KEY")
 
-        return render_template("route.html", maps_api_key=maps_key)
+        destination_name = request.args.get("name", "").strip()
+        destination_city = request.args.get("city", "").strip()
+
+        return render_template(
+            "route.html",
+            maps_api_key=maps_key,
+            destination_name=destination_name,
+            destination_city=destination_city,
+        )
 
     return app
 

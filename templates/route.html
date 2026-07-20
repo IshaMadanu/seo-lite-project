@@ -3,86 +3,126 @@
 {% block content %}
   <h1>Routes</h1>
 
-  <div class="route-grid">
+  {% if not destination_name %}
     <div class="card">
-      <div class="route-name-card">Nonprofit Name</div>
+      <p class="ts">No nonprofit selected —
+        <a href="{{ url_for('recommendations') }}">pick one from your recommendations</a> to see directions.</p>
+    </div>
+  {% else %}
+    <div class="route-grid">
+      <div class="card">
+        <div class="route-name-card">{{ destination_name }}</div>
+        {% if destination_city %}<p class="ts" style="margin-top: -10px;">{{ destination_city }}, NY</p>{% endif %}
 
-      <div class="travel-modes">
-        <button type="button" class="mode-btn" id="btn-WALKING" onclick="selectMode('WALKING')">
-          Walk <span class="mode-time" id="time-WALKING">--</span>
-        </button>
-        <button type="button" class="mode-btn" id="btn-BICYCLING" onclick="selectMode('BICYCLING')">
-          Bike <span class="mode-time" id="time-BICYCLING">--</span>
-        </button>
-        <button type="button" class="mode-btn" id="btn-DRIVING" onclick="selectMode('DRIVING')">
-          Car <span class="mode-time" id="time-DRIVING">--</span>
-        </button>
-        <button type="button" class="mode-btn" id="btn-TRANSIT" onclick="selectMode('TRANSIT')">
-          Transit <span class="mode-time" id="time-TRANSIT">--</span>
-        </button>
+        <form id="origin-form" style="margin: 16px 0 20px;">
+          <label for="origin-input" style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:6px;">
+            Starting address
+          </label>
+          <input type="text" id="origin-input" placeholder="e.g. 350 5th Ave, New York, NY"
+                 style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px; font:inherit; margin-bottom:10px;">
+          <button type="submit" class="btn" style="width:100%;">Get directions</button>
+        </form>
+
+        <p class="ts" id="route-status"></p>
+
+        <div class="travel-modes">
+          <button type="button" class="mode-btn" id="btn-WALKING" onclick="selectMode('WALKING')" disabled>
+            Walk <span class="mode-time" id="time-WALKING">--</span>
+          </button>
+          <button type="button" class="mode-btn" id="btn-BICYCLING" onclick="selectMode('BICYCLING')" disabled>
+            Bike <span class="mode-time" id="time-BICYCLING">--</span>
+          </button>
+          <button type="button" class="mode-btn" id="btn-DRIVING" onclick="selectMode('DRIVING')" disabled>
+            Car <span class="mode-time" id="time-DRIVING">--</span>
+          </button>
+          <button type="button" class="mode-btn" id="btn-TRANSIT" onclick="selectMode('TRANSIT')" disabled>
+            Transit <span class="mode-time" id="time-TRANSIT">--</span>
+          </button>
+        </div>
       </div>
+
+      <div id="map" style="height: 440px; width: 100%">Map</div>
     </div>
 
-    <div id="map" style="height: 440px; width: 100%">Map</div>
-  </div>
+    <script>
+      const DESTINATION = {{ (destination_name + (', ' + destination_city if destination_city else '') + ', NY') | tojson }};
+      const MODES = ["WALKING", "BICYCLING", "DRIVING", "TRANSIT"];
 
-  <script>
-    const ORIGIN = "Times Square, New York, NY";
-    const DESTINATION = "Central Park, New York, NY";
-    const MODES = ["WALKING", "BICYCLING", "DRIVING", "TRANSIT"];
+      let map;
+      let directionsService;
+      let directionsRenderer;
+      let activeMode = "DRIVING";
+      let origin = null;
 
-    let map;
-    let directionsService;
-    let directionsRenderer;
-    let activeMode = "DRIVING";
+      function initMap() {
+          directionsService = new google.maps.DirectionsService();
+          directionsRenderer = new google.maps.DirectionsRenderer();
 
-    function initMap() {
-        directionsService = new google.maps.DirectionsService();
-        directionsRenderer = new google.maps.DirectionsRenderer();
+          map = new google.maps.Map(document.getElementById("map"), {
+              center: { lat: 40.7128, lng: -74.006 },
+              zoom: 11
+          });
+          directionsRenderer.setMap(map);
 
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 40.7128, lng: -74.006 },
-            zoom: 10
-        });
-        directionsRenderer.setMap(map);
+          document.getElementById('origin-form').addEventListener('submit', function (e) {
+              e.preventDefault();
+              const value = document.getElementById('origin-input').value.trim();
+              if (!value) return;
+              origin = value;
+              calculateAll();
+          });
+      }
 
-        MODES.forEach(mode => fetchModeTime(mode));
+      function setStatus(msg) {
+          document.getElementById('route-status').textContent = msg;
+      }
 
-        selectMode(activeMode);
-    }
+      function calculateAll() {
+          setStatus('Looking up directions…');
+          MODES.forEach(mode => fetchModeTime(mode));
+          selectMode(activeMode);
+      }
 
-    function fetchModeTime(mode) {
-        directionsService.route(
-            { origin: ORIGIN, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
-            function (result, status) {
-                const timeEl = document.getElementById('time-' + mode);
-                if (status === 'OK') {
-                    timeEl.textContent = result.routes[0].legs[0].duration.text;
-                } else {
-                    timeEl.textContent = 'N/A';
-                }
-            }
-        );
-    }
+      function fetchModeTime(mode) {
+          directionsService.route(
+              { origin: origin, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+              function (result, status) {
+                  const timeEl = document.getElementById('time-' + mode);
+                  const btn = document.getElementById('btn-' + mode);
+                  if (status === 'OK') {
+                      timeEl.textContent = result.routes[0].legs[0].duration.text;
+                      btn.disabled = false;
+                  } else {
+                      timeEl.textContent = 'N/A';
+                      btn.disabled = true;
+                  }
+              }
+          );
+      }
 
-    function selectMode(mode) {
-        activeMode = mode;
-        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + mode).classList.add('active');
+      function selectMode(mode) {
+          if (!origin) return;
+          activeMode = mode;
+          document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+          document.getElementById('btn-' + mode).classList.add('active');
 
-        directionsService.route(
-            { origin: ORIGIN, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
-            function (result, status) {
-                if (status === 'OK') {
-                    directionsRenderer.setDirections(result);
-                } else {
-                    console.error("Direction request error:", status);
-                }
-            }
-        );
-    }
-  </script>
+          directionsService.route(
+              { origin: origin, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+              function (result, status) {
+                  if (status === 'OK') {
+                      directionsRenderer.setDirections(result);
+                      setStatus('');
+                  } else if (status === 'ZERO_RESULTS' || status === 'NOT_FOUND') {
+                      setStatus("Couldn't find a route between those two places — try a more specific starting address.");
+                  } else {
+                      setStatus('Direction request error: ' + status);
+                  }
+              }
+          );
+      }
+    </script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&loading=async" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&loading=async" async></script>
+  {% endif %}
 
 {% endblock %}

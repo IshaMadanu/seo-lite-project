@@ -302,19 +302,17 @@ button:hover, .btn:hover { background: var(--green-dark); }
   white-space: nowrap;
 }
 .see-route:hover { text-decoration: underline; }
-
-/* ---------- Route page ---------- */
 .route-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 20px;
   align-items: start;
 }
 
 .route-name-card {
   font-weight: 700;
-  font-size: 1.05rem;
-  margin-bottom: 16px;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
 }
 
 .travel-modes {
@@ -327,28 +325,48 @@ button:hover, .btn:hover { background: var(--green-dark); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   background: #fff;
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   color: var(--text);
   font-weight: 600;
-  padding: 12px 16px;
+  padding: 14px 16px;
+  text-align: left;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.mode-btn > div {
+  width: 100%;
 }
 
 .mode-btn .mode-time {
   color: var(--text-muted);
   font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.mode-btn span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
 .mode-btn.active {
-  background: var(--green);
+  background: var(--green-tint);
   border-color: var(--green);
-  color: #fff;
+  color: var(--green-dark);
 }
-.mode-btn.active .mode-time { color: #eaf0e6; }
 
+.mode-btn.active .mode-time,
+.mode-btn.active span {
+  color: var(--green-dark);
+}
 .mode-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  background: #fafafa;
 }
 
 #map {
@@ -364,4 +382,16 @@ button:hover, .btn:hover { background: var(--green-dark); }
   .sidebar-footer { margin-top: 0; padding-top: 0; border-top: none; }
   .profile-grid, .route-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(3, 1fr); }
+}
+/* .recommended {
+    border: 2px solid var(--green);
+    background: var(--green-tint);
+} */
+
+.recommended::after {
+    content: "Recommended";
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }

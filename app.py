@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 from functools import wraps
 from itertools import zip_longest
 from pathlib import Path
-from flask import Flask, render_template, request, redirect, url_for, session
-
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import dynamo
 
 load_dotenv()
@@ -82,6 +81,7 @@ def create_app(resource=None):
             "name": record.get("name", email),
             "email": email,
             "avatar_url": None,
+            "co2_saved": dynamo.get_co2_saved(db, email)
         }
         return render_template(
             "profile.html",
@@ -135,6 +135,23 @@ def create_app(resource=None):
             destination_name=destination_name,
             destination_city=destination_city,
         )
+    
+    @app.route("/save_route", methods=["POST"])
+    @login_required
+    def save_route():
+
+        data = request.get_json()
+
+        co2_saved = float(data.get("co2_saved", 0))
+
+        dynamo.add_co2_saved(
+            db,
+            session["user_email"],
+            co2_saved
+        )
+
+        return jsonify(success=True)
+
 
     return app
 

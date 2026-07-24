@@ -19,7 +19,9 @@
           <div class="stat-label">Nonprofits Visited</div>
         </div>
         <div class="card stat-card">
-          <div class="stat-value">0</div>
+          <div class="stat-value">
+            {{ "%.2f"|format(user.co2_saved) }} kg
+          </div>
           <div class="stat-label">CO2 Saved</div>
         </div>
       </div>

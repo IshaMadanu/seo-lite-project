@@ -27,17 +27,40 @@
 
         <div class="travel-modes">
           <button type="button" class="mode-btn" id="btn-WALKING" onclick="selectMode('WALKING')" disabled>
-            Walk <span class="mode-time" id="time-WALKING">--</span>
+            <div>
+              <strong>Walking</strong><br>
+              <span class="mode-time" id="time-WALKING">--</span><br>
+              <span id="co2-WALKING">-- kg CO₂</span>
+            </div>
           </button>
+
           <button type="button" class="mode-btn" id="btn-BICYCLING" onclick="selectMode('BICYCLING')" disabled>
-            Bike <span class="mode-time" id="time-BICYCLING">--</span>
+            <div>
+              <strong>Bicycling</strong><br>
+              <span class="mode-time" id="time-BICYCLING">--</span><br>
+              <span id="co2-BICYCLING">-- kg CO₂</span>
+            </div>
           </button>
+
+
           <button type="button" class="mode-btn" id="btn-DRIVING" onclick="selectMode('DRIVING')" disabled>
-            Car <span class="mode-time" id="time-DRIVING">--</span>
+            <div>
+              <strong>Car</strong><br>
+              <span class="mode-time" id="time-DRIVING">--</span><br>
+              <span id="co2-DRIVING">-- kg CO₂</span>
+            </div>
           </button>
+
+
           <button type="button" class="mode-btn" id="btn-TRANSIT" onclick="selectMode('TRANSIT')" disabled>
-            Transit <span class="mode-time" id="time-TRANSIT">--</span>
+            <div>
+              <strong>Transit</strong><br>
+              <span class="mode-time" id="time-TRANSIT">--</span><br>
+              <span id="co2-TRANSIT">-- kg CO₂</span>
+            </div>
           </button>
+
+
         </div>
       </div>
 
@@ -47,7 +70,13 @@
     <script>
       const DESTINATION = {{ (destination_name + (', ' + destination_city if destination_city else '') + ', NY') | tojson }};
       const MODES = ["WALKING", "BICYCLING", "DRIVING", "TRANSIT"];
-
+      const CO2_PER_MILE = {
+          WALKING: 0,
+          BICYCLING: 0,
+          TRANSIT: 0.13,
+          DRIVING: 0.31
+      };
+      const routeData = {};
       let map;
       let directionsService;
       let directionsRenderer;
@@ -90,14 +119,78 @@
                   const timeEl = document.getElementById('time-' + mode);
                   const btn = document.getElementById('btn-' + mode);
                   if (status === 'OK') {
-                      timeEl.textContent = result.routes[0].legs[0].duration.text;
-                      btn.disabled = false;
+                    const leg = result.routes[0].legs[0];
+                    const miles = leg.distance.value / 1609.34;
+                    const co2 = miles * CO2_PER_MILE[mode];
+                    routeData[mode] = {
+                        time: leg.duration.value,
+                        distance: miles,
+                        co2: co2
+                    };
+                    timeEl.textContent = leg.duration.text;
+                    document.getElementById(
+                        "co2-" + mode
+                    ).textContent = co2.toFixed(2) + " kg CO₂";
+                    btn.disabled = false;
+
+                    highlightRoutes();
                   } else {
                       timeEl.textContent = 'N/A';
                       btn.disabled = true;
                   }
               }
           );
+      }
+
+      function highlightRoutes() {
+          const modes = Object.keys(routeData);
+          document.querySelectorAll(".mode-btn").forEach(btn => {
+              btn.classList.remove("recommended");
+          });
+          let fastest = modes[0];
+          modes.forEach(mode => {
+              if (routeData[mode].time < routeData[fastest].time) {
+                  fastest = mode;
+              }
+          });
+          const fastestTime = routeData[fastest].time;
+          let recommended= null;
+          // #1: 0 CO₂ route if <10 minutes
+          modes.forEach(mode => {
+              if (
+                  routeData[mode].co2 === 0 &&
+                  routeData[mode].time <= fastestTime + 600
+              ) {
+                  if (
+                      recommended === null ||
+                      routeData[mode].time < routeData[recommended].time
+                  ) {
+                      recommended = mode;
+                  }
+              }
+          });
+          //lowest co2 route for 1.2 of fastest
+          if (recommended === null) {
+              const maxTime = fastestTime * 1.2;
+              modes.forEach(mode => {
+                  if (routeData[mode].time <= maxTime) {
+                      if (
+                          recommended === null ||
+                          routeData[mode].co2 < routeData[recommended].co2
+                      ) {
+                          recommended = mode;
+                      }
+                  }
+              });
+          }
+
+          // else fsatest
+          if (recommended === null) {
+              recommended = fastest;
+          }
+          document
+              .getElementById("btn-" + recommended)
+              .classList.add("recommended");
       }
 
       function selectMode(mode) {
@@ -111,6 +204,22 @@
               function (result, status) {
                   if (status === 'OK') {
                       directionsRenderer.setDirections(result);
+                        if(routeData["DRIVING"]){
+                            const saved =
+                                routeData["DRIVING"].co2 -
+                                routeData[mode].co2;
+                            if(saved > 0){
+                                fetch("/save_route",{
+                                    method:"POST",
+                                    headers:{
+                                        "Content-Type":"application/json"
+                                    },
+                                    body:JSON.stringify({
+                                        co2_saved:saved
+                                    })
+                                });
+                            }
+                        }
                       setStatus('');
                   } else if (status === 'ZERO_RESULTS' || status === 'NOT_FOUND') {
                       setStatus("Couldn't find a route between those two places — try a more specific starting address.");

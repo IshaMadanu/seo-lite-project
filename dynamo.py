@@ -156,3 +156,23 @@ def add_interests(resource, username, interests):
             merged.append(interest)
     set_interests(resource, username, merged)
     return merged
+
+
+def get_co2_saved(resource, username):
+    user = get_user(resource, username)
+    if not user:
+        return 0.0
+    return float(user.get("co2_saved", 0))
+
+
+def add_co2_saved(resource, username, amount):
+    resource.Table(USERS_TABLE).update_item(
+        Key={"username": username},
+        UpdateExpression="""
+            SET co2_saved = if_not_exists(co2_saved, :zero) + :amount
+        """,
+        ExpressionAttributeValues={
+            ":amount": float(amount),
+            ":zero": 0
+        }
+    )

@@ -140,15 +140,22 @@ def create_app(resource=None):
     @login_required
     def save_route():
 
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
 
-        co2_saved = float(data.get("co2_saved", 0))
+        try:
 
-        dynamo.add_co2_saved(
-            db,
-            session["user_email"],
-            co2_saved
-        )
+            co2_saved = float(data.get("co2_saved", 0))
+        except (TypeError, ValueError):
+            return jsonify(success=False)
+
+        try:
+            dynamo.add_co2_saved(
+                db,
+                session["user_email"],
+                co2_saved
+            )
+        except Exception as e:
+            return jsonify(success=False)
 
         return jsonify(success=True)
 

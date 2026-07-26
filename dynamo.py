@@ -15,6 +15,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from werkzeug.security import check_password_hash, generate_password_hash
+from decimal import Decimal
 
 USERS_TABLE = "users"
 INTERESTS_TABLE = "user_interests"
@@ -172,7 +173,7 @@ def add_co2_saved(resource, username, amount):
             SET co2_saved = if_not_exists(co2_saved, :zero) + :amount
         """,
         ExpressionAttributeValues={
-            ":amount": float(amount),
-            ":zero": 0
+            ":amount": Decimal(str(amount)),
+            ":zero": Decimal(0)
         }
     )

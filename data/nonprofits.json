@@ -1,0 +1,902 @@
+[
+  {
+    "ein": "133783732",
+    "name": "HEALTHFIRST PHSP INC",
+    "city": "New York",
+    "revenue": 12172591281,
+    "ntee": "E310",
+    "category": "health",
+    "rank": 1
+  },
+  {
+    "ein": "135562308",
+    "name": "NEW YORK UNIVERSITY",
+    "city": "New York",
+    "revenue": 11618297563,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 2
+  },
+  {
+    "ein": "133957095",
+    "name": "THE NEW YORK AND PRESBYTERIAN HOSPITAL",
+    "city": "New York",
+    "revenue": 10662065094,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 3
+  },
+  {
+    "ein": "133971298",
+    "name": "NYU LANGONE HOSPITALS",
+    "city": "New York",
+    "revenue": 9453515938,
+    "ntee": "E20G",
+    "category": "health",
+    "rank": 4
+  },
+  {
+    "ein": "912154267",
+    "name": "MEMORIAL SLOAN-KETTERING CANCER CENTER",
+    "city": "New York",
+    "revenue": 8499234483,
+    "ntee": "E240",
+    "category": "health",
+    "rank": 5
+  },
+  {
+    "ein": "135598093",
+    "name": "TRUSTEES OF COLUMBIA UNIVERSITY",
+    "city": "New York",
+    "revenue": 7512150787,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 6
+  },
+  {
+    "ein": "113029569",
+    "name": "HEALTHFIRST HEALTH PLAN INC",
+    "city": "New York",
+    "revenue": 6954314248,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 7
+  },
+  {
+    "ein": "311774905",
+    "name": "GS DONOR ADVISED PHILANTHROPY FUND FOR WEALTH MANAGEMENT INC",
+    "city": "New York",
+    "revenue": 6592899306,
+    "ntee": "T30",
+    "category": "philanthropy",
+    "rank": 8
+  },
+  {
+    "ein": "131740114",
+    "name": "MONTEFIORE MEDICAL CENTER",
+    "city": "Bronx",
+    "revenue": 5908041192,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 9
+  },
+  {
+    "ein": "134115686",
+    "name": "METROPLUS HEALTH PLAN INC",
+    "city": "New York",
+    "revenue": 4865128566,
+    "ntee": "E31",
+    "category": "health",
+    "rank": 10
+  },
+  {
+    "ein": "131828429",
+    "name": "HEALTH INSURANCE PLAN OF GREATER NEW YORK",
+    "city": "New York",
+    "revenue": 4710482271,
+    "ntee": "E320",
+    "category": "health",
+    "rank": 11
+  },
+  {
+    "ein": "131624096",
+    "name": "MOUNT SINAI HOSPITAL",
+    "city": "New York",
+    "revenue": 4653204635,
+    "ntee": "E22",
+    "category": "health",
+    "rank": 12
+  },
+  {
+    "ein": "136171197",
+    "name": "ICAHN SCHOOL OF MEDICINE AT MOUNT SINAI",
+    "city": "New York",
+    "revenue": 4488369634,
+    "ntee": "B500",
+    "category": "education",
+    "rank": 13
+  },
+  {
+    "ein": "113601529",
+    "name": "BOEING COMPANY VEBA MASTER TRUST",
+    "city": "Brooklyn",
+    "revenue": 2881824908,
+    "ntee": "Y43",
+    "category": "mutual-benefit",
+    "rank": 14
+  },
+  {
+    "ein": "131628401",
+    "name": "1199 NATIONAL BENEFIT FUND FOR HOSPITAL & HUMAN SERVICE EMPLOYEES",
+    "city": "New York",
+    "revenue": 2527972421,
+    "ntee": "Y43",
+    "category": "mutual-benefit",
+    "rank": 15
+  },
+  {
+    "ein": "133951057",
+    "name": "VNS CHOICE",
+    "city": "New York",
+    "revenue": 2505432104,
+    "ntee": "E920",
+    "category": "health",
+    "rank": 16
+  },
+  {
+    "ein": "112625096",
+    "name": "ELDERPLAN INC",
+    "city": "New York",
+    "revenue": 2045758096,
+    "ntee": "E310",
+    "category": "health",
+    "rank": 17
+  },
+  {
+    "ein": "132928869",
+    "name": "BUILDING SERVICE 32BJ HEALTH FUND",
+    "city": "New York",
+    "revenue": 1946866180,
+    "ntee": "J40",
+    "category": "employment",
+    "rank": 18
+  },
+  {
+    "ein": "112421972",
+    "name": "INCLUSIV INC",
+    "city": "New York",
+    "revenue": 1897878390,
+    "ntee": "W020",
+    "category": "public-benefit",
+    "rank": 19
+  },
+  {
+    "ein": "131924236",
+    "name": "MEMORIAL SLOAN-KETTERING CANCER CENTER",
+    "city": "New York",
+    "revenue": 1819162205,
+    "ntee": "E120",
+    "category": "health",
+    "rank": 20
+  },
+  {
+    "ein": "111635081",
+    "name": "MAIMONIDES MEDICAL CENTER-",
+    "city": "Brooklyn",
+    "revenue": 1807630671,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 21
+  },
+  {
+    "ein": "131624135",
+    "name": "NEW YORK SOCIETY FOR THE RELIEF OF RUPTURED & CRIPPLED MAINTAINING",
+    "city": "New York",
+    "revenue": 1756859714,
+    "ntee": "E240",
+    "category": "health",
+    "rank": 22
+  },
+  {
+    "ein": "132997301",
+    "name": "ST LUKES ROOSEVELT HOSPITAL CENTER",
+    "city": "New York",
+    "revenue": 1756700667,
+    "ntee": "E22",
+    "category": "health",
+    "rank": 23
+  },
+  {
+    "ein": "262006545",
+    "name": "VILLAGE SENIOR SERVICES CORPORATION",
+    "city": "New York",
+    "revenue": 1749873219,
+    "ntee": "E800",
+    "category": "health",
+    "rank": 24
+  },
+  {
+    "ein": "131677841",
+    "name": "CONFERENCE ON JEWISH MATERIAL CLAIMS AGAINST GERMANY",
+    "city": "New York",
+    "revenue": 1629819378,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 25
+  },
+  {
+    "ein": "132587538",
+    "name": "CITY UNIVERSITY CONSTRUCTION FUND",
+    "city": "New York",
+    "revenue": 1517891563,
+    "ntee": "B110",
+    "category": "education",
+    "rank": 26
+  },
+  {
+    "ein": "830621846",
+    "name": "ALBERT EINSTEIN COLLEGE OF MEDICINE",
+    "city": "Bronx",
+    "revenue": 1476385707,
+    "ntee": "B50",
+    "category": "education",
+    "rank": 27
+  },
+  {
+    "ein": "237174183",
+    "name": "JEWISH COMMUNAL FUND",
+    "city": "New York",
+    "revenue": 1337028835,
+    "ntee": "T700",
+    "category": "philanthropy",
+    "rank": 28
+  },
+  {
+    "ein": "135660870",
+    "name": "INTERNATIONAL RESCUE COMMITTEE INC",
+    "city": "New York",
+    "revenue": 1314041795,
+    "ntee": "Q710",
+    "category": "international",
+    "rank": 29
+  },
+  {
+    "ein": "800517818",
+    "name": "ELDERSERVE HEALTH INC",
+    "city": "Bronx",
+    "revenue": 1265590864,
+    "ntee": "E920",
+    "category": "health",
+    "rank": 30
+  },
+  {
+    "ein": "900603487",
+    "name": "PHYSICIAN AFFILIATE GROUP OF NEW YORK PC",
+    "city": "New York",
+    "revenue": 1255570596,
+    "ntee": "E20",
+    "category": "health",
+    "rank": 31
+  },
+  {
+    "ein": "111839362",
+    "name": "NEWYORK-PRESBYTERIAN-QUEENS",
+    "city": "Flushing",
+    "revenue": 1243153713,
+    "ntee": "E22",
+    "category": "health",
+    "rank": 32
+  },
+  {
+    "ein": "131740451",
+    "name": "FORDHAM UNIVERSITY",
+    "city": "Bronx",
+    "revenue": 1225879469,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 33
+  },
+  {
+    "ein": "131623965",
+    "name": "COLLEGE BOARD",
+    "city": "New York",
+    "revenue": 1174989530,
+    "ntee": "B900",
+    "category": "education",
+    "rank": 34
+  },
+  {
+    "ein": "133017999",
+    "name": "IBM CORP MEDICAL & DENTAL BENEFITS PLAN TR P92435",
+    "city": "Brooklyn",
+    "revenue": 1095189675,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 35
+  },
+  {
+    "ein": "135564934",
+    "name": "BETH ISRAEL MEDICAL CENTER",
+    "city": "New York",
+    "revenue": 1076809659,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 36
+  },
+  {
+    "ein": "131974191",
+    "name": "BRONXCARE HEALTH SYSTEM",
+    "city": "Bronx",
+    "revenue": 1054193847,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 37
+  },
+  {
+    "ein": "111631746",
+    "name": "BROOKDALE HOSPITAL MEDICAL CENTER",
+    "city": "Brooklyn",
+    "revenue": 996215964,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 38
+  },
+  {
+    "ein": "131624086",
+    "name": "THE METROPOLITAN MUSEUM OF ART",
+    "city": "New York",
+    "revenue": 907368037,
+    "ntee": "A510",
+    "category": "arts",
+    "rank": 39
+  },
+  {
+    "ein": "111980218",
+    "name": "DELTA DENTAL OF NEW YORK INC",
+    "city": "New York",
+    "revenue": 860618607,
+    "ntee": "Y20",
+    "category": "mutual-benefit",
+    "rank": 40
+  },
+  {
+    "ein": "133968546",
+    "name": "MANAGEMENT-ILA MANAGED HEALTHCARE EMPLOYEE BENEFITS TR",
+    "city": "New York",
+    "revenue": 844427275,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 41
+  },
+  {
+    "ein": "111630830",
+    "name": "ST JOHNS UNIVERSITY NEW YORK",
+    "city": "Jamaica",
+    "revenue": 843696353,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 42
+  },
+  {
+    "ein": "111631788",
+    "name": "JAMAICA HOSPITAL MEDICAL CENTER",
+    "city": "Richmond Hill",
+    "revenue": 840728832,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 43
+  },
+  {
+    "ein": "131760110",
+    "name": "UNITED STATES FUND FOR UNICEF",
+    "city": "New York",
+    "revenue": 835217861,
+    "ntee": "Q420",
+    "category": "international",
+    "rank": 44
+  },
+  {
+    "ein": "812621466",
+    "name": "NYC SCHOOL SUPPORT SERVICES INC",
+    "city": "New York",
+    "revenue": 807359173,
+    "ntee": "B11",
+    "category": "education",
+    "rank": 45
+  },
+  {
+    "ein": "510169168",
+    "name": "PLAN INTERNATIONAL INC",
+    "city": "New York",
+    "revenue": 779465250,
+    "ntee": "Q330",
+    "category": "international",
+    "rank": 46
+  },
+  {
+    "ein": "133433452",
+    "name": "MEDECINS SANS FRONTIERES USA INC",
+    "city": "New York",
+    "revenue": 776922926,
+    "ntee": "Q300",
+    "category": "international",
+    "rank": 47
+  },
+  {
+    "ein": "131961750",
+    "name": "MANHATTAN AND BRONX SURFACE TRANSIT OPERATING AUTHORITY",
+    "city": "New York",
+    "revenue": 736105241,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 48
+  },
+  {
+    "ein": "135562314",
+    "name": "PACE UNIVERSITY",
+    "city": "New York",
+    "revenue": 719108199,
+    "ntee": "B40",
+    "category": "education",
+    "rank": 49
+  },
+  {
+    "ein": "135596846",
+    "name": "AMERICAN UNIVERSITY OF BEIRUT",
+    "city": "New York",
+    "revenue": 709669598,
+    "ntee": "B43Z",
+    "category": "education",
+    "rank": 50
+  },
+  {
+    "ein": "133615533",
+    "name": "ROCKEFELLER PHILANTHROPY ADVISORS INC",
+    "city": "New York",
+    "revenue": 706026148,
+    "ntee": "T500",
+    "category": "philanthropy",
+    "rank": 51
+  },
+  {
+    "ein": "131887440",
+    "name": "THE NEW YORK PUBLIC LIBRARY ASTOR LENOX AND TILDEN FOUNDATIONS",
+    "city": "New York",
+    "revenue": 693176891,
+    "ntee": "B700",
+    "category": "education",
+    "rank": 52
+  },
+  {
+    "ein": "131988190",
+    "name": "RESEARCH FOUNDATION OF THE CITY UNIVERSITY OF NEW YORK",
+    "city": "New York",
+    "revenue": 667697898,
+    "ntee": "B110",
+    "category": "education",
+    "rank": 53
+  },
+  {
+    "ein": "133600807",
+    "name": "CENTERLIGHT HEALTHCARE INC",
+    "city": "Flushing",
+    "revenue": 660182809,
+    "ntee": "E210",
+    "category": "health",
+    "rank": 54
+  },
+  {
+    "ein": "135562401",
+    "name": "YOUNG MENS CHRISTIAN ASSOCIATION RETIREMENT FUND",
+    "city": "New York",
+    "revenue": 649289748,
+    "ntee": "Y300",
+    "category": "mutual-benefit",
+    "rank": 55
+  },
+  {
+    "ein": "133297197",
+    "name": "THE NEW SCHOOL",
+    "city": "New York",
+    "revenue": 630645764,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 56
+  },
+  {
+    "ein": "131740122",
+    "name": "ST BARNABAS HOSPITAL",
+    "city": "Bronx",
+    "revenue": 603257963,
+    "ntee": "E20",
+    "category": "health",
+    "rank": 57
+  },
+  {
+    "ein": "136192275",
+    "name": "BAR ILAN UNIVERSITY IN ISRAEL",
+    "city": "New York",
+    "revenue": 603106470,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 58
+  },
+  {
+    "ein": "136126923",
+    "name": "NEW YORK HOTEL TRADES COUNCIL AND HOTEL ASSOC OF NYC INC HEALTH BENE",
+    "city": "New York",
+    "revenue": 562005789,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 59
+  },
+  {
+    "ein": "020554654",
+    "name": "STEPHEN SILLER TUNNEL TO TOWERS FOUNDATION",
+    "city": "Staten Island",
+    "revenue": 559392887,
+    "ntee": "B82",
+    "category": "education",
+    "rank": 60
+  },
+  {
+    "ein": "130891045",
+    "name": "PENSION COMM JOINT INDUSTRY BOARD OF THE ELECTRICAL INDUSTRY",
+    "city": "Flushing",
+    "revenue": 525393275,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 61
+  },
+  {
+    "ein": "111630755",
+    "name": "THE BROOKLYN HOSPITAL CENTER",
+    "city": "Brooklyn",
+    "revenue": 506112759,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 62
+  },
+  {
+    "ein": "134141945",
+    "name": "MICHAEL J FOX FOUNDATION FOR PARKINSONS RESEARCH",
+    "city": "New York",
+    "revenue": 505288760,
+    "ntee": "H48",
+    "category": "medical-research",
+    "rank": 63
+  },
+  {
+    "ein": "132676570",
+    "name": "TOURO UNIVERSITY",
+    "city": "New York",
+    "revenue": 495829313,
+    "ntee": "B420",
+    "category": "education",
+    "rank": 64
+  },
+  {
+    "ein": "264351242",
+    "name": "FUND FOR POLICY REFORM INC",
+    "city": "New York",
+    "revenue": 470129351,
+    "ntee": "W05",
+    "category": "public-benefit",
+    "rank": 65
+  },
+  {
+    "ein": "113618879",
+    "name": "THE OJC FUND",
+    "city": "Brooklyn",
+    "revenue": 469320831,
+    "ntee": "B90",
+    "category": "education",
+    "rank": 66
+  },
+  {
+    "ein": "135615576",
+    "name": "N Y C DISTRICT COUNCIL CARPENTERS WELFARE FUND",
+    "city": "New York",
+    "revenue": 464365274,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 67
+  },
+  {
+    "ein": "743177454",
+    "name": "RICHMOND MEDICAL CENTER",
+    "city": "Staten Island",
+    "revenue": 461087322,
+    "ntee": "E20",
+    "category": "health",
+    "rank": 68
+  },
+  {
+    "ein": "131624158",
+    "name": "ROCKEFELLER UNIVERSITY",
+    "city": "New York",
+    "revenue": 458410394,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 69
+  },
+  {
+    "ein": "132547675",
+    "name": "UNITED FEDERATION OF TEACHERS WELFARE FUND",
+    "city": "New York",
+    "revenue": 453527688,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 70
+  },
+  {
+    "ein": "364629540",
+    "name": "SUCCESS ACADEMY CHARTER SCHOOLS - NYC",
+    "city": "New York",
+    "revenue": 452649405,
+    "ntee": "B29",
+    "category": "education",
+    "rank": 71
+  },
+  {
+    "ein": "131623829",
+    "name": "AMERICAN SOCIETY FOR THE PREVENTION OF CRUELTY TO ANIMALS",
+    "city": "New York",
+    "revenue": 446134125,
+    "ntee": "D200",
+    "category": "animals",
+    "rank": 72
+  },
+  {
+    "ein": "111631781",
+    "name": "FLUSHING HOSPITAL & MEDICAL CENTER",
+    "city": "Flushing",
+    "revenue": 444316060,
+    "ntee": "E220",
+    "category": "health",
+    "rank": 73
+  },
+  {
+    "ein": "131624225",
+    "name": "YESHIVA UNIVERSITY",
+    "city": "New York",
+    "revenue": 443865833,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 74
+  },
+  {
+    "ein": "116107128",
+    "name": "ENVIRONMENTAL DEFENSE FUND INCORPORATED",
+    "city": "New York",
+    "revenue": 443267772,
+    "ntee": "C600",
+    "category": "environment",
+    "rank": 75
+  },
+  {
+    "ein": "135562265",
+    "name": "LEGAL AID SOCIETY",
+    "city": "New York",
+    "revenue": 439700805,
+    "ntee": "I800",
+    "category": "crime-legal",
+    "rank": 76
+  },
+  {
+    "ein": "131624240",
+    "name": "THE JEWISH FEDERATIONS OF NORTH AMERICA INC",
+    "city": "New York",
+    "revenue": 435156966,
+    "ntee": "T700",
+    "category": "philanthropy",
+    "rank": 77
+  },
+  {
+    "ein": "131656634",
+    "name": "AMERICAN JEWISH JOINT DISTRIBUTION COMMITTEE INC",
+    "city": "New York",
+    "revenue": 412907647,
+    "ntee": "Q330",
+    "category": "international",
+    "rank": 78
+  },
+  {
+    "ein": "237333434",
+    "name": "IATSE NATIONAL HEALTH & WELFARE FUND",
+    "city": "New York",
+    "revenue": 412585938,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 79
+  },
+  {
+    "ein": "131644147",
+    "name": "PLANNED PARENTHOOD FEDERATION OF",
+    "city": "New York",
+    "revenue": 410003513,
+    "ntee": "E420",
+    "category": "health",
+    "rank": 80
+  },
+  {
+    "ein": "111631837",
+    "name": "WYCKOFF HEIGHTS MEDICAL CENTER",
+    "city": "Brooklyn",
+    "revenue": 406267349,
+    "ntee": "E21",
+    "category": "health",
+    "rank": 81
+  },
+  {
+    "ein": "131740011",
+    "name": "WILDLIFE CONSERVATION SOCIETY",
+    "city": "Bronx",
+    "revenue": 400861377,
+    "ntee": "D500",
+    "category": "animals",
+    "rank": 82
+  },
+  {
+    "ein": "131624046",
+    "name": "INSTITUTE OF INTERNATIONAL EDUCATION INC",
+    "city": "New York",
+    "revenue": 395461727,
+    "ntee": "Q220",
+    "category": "international",
+    "rank": 83
+  },
+  {
+    "ein": "201615393",
+    "name": "MONTEFIORE HEALTH SYSTEM INC",
+    "city": "Bronx",
+    "revenue": 383138560,
+    "ntee": "E19",
+    "category": "health",
+    "rank": 84
+  },
+  {
+    "ein": "135596746",
+    "name": "NYSARC INC",
+    "city": "New York",
+    "revenue": 370470018,
+    "ntee": "P820",
+    "category": "human-services",
+    "rank": 85
+  },
+  {
+    "ein": "131615440",
+    "name": "EXCAVATORS UNION-731 WELFARE FUND",
+    "city": "Astoria",
+    "revenue": 365130478,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 86
+  },
+  {
+    "ein": "111630822",
+    "name": "PRATT INSTITUTE",
+    "city": "Brooklyn",
+    "revenue": 364544064,
+    "ntee": "B430",
+    "category": "education",
+    "rank": 87
+  },
+  {
+    "ein": "133030229",
+    "name": "LOCAL INITIATIVES SUPPORT CORPORATION",
+    "city": "New York",
+    "revenue": 363857494,
+    "ntee": "S200",
+    "category": "community-improvement",
+    "rank": 88
+  },
+  {
+    "ein": "131624100",
+    "name": "MUSEUM OF MODERN ART",
+    "city": "New York",
+    "revenue": 362023464,
+    "ntee": "A510",
+    "category": "arts",
+    "rank": 89
+  },
+  {
+    "ein": "842967946",
+    "name": "CONSOLIDATED AUDIT TRAIL LLC",
+    "city": "New York",
+    "revenue": 359453521,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 90
+  },
+  {
+    "ein": "208180809",
+    "name": "CATHOLIC MANAGED LONG TERM CARE INC",
+    "city": "New York",
+    "revenue": 358407177,
+    "ntee": "E60",
+    "category": "health",
+    "rank": 91
+  },
+  {
+    "ein": "874099467",
+    "name": "ACACIA CENTER FOR JUSTICE",
+    "city": "New York",
+    "revenue": 353995304,
+    "ntee": "P84",
+    "category": "human-services",
+    "rank": 92
+  },
+  {
+    "ein": "131628149",
+    "name": "BARNARD COLLEGE",
+    "city": "New York",
+    "revenue": 353986942,
+    "ntee": "B420",
+    "category": "education",
+    "rank": 93
+  },
+  {
+    "ein": "112635374",
+    "name": "SAMARITAN DAYTOP VILLAGE INC",
+    "city": "Briarwood",
+    "revenue": 351963158,
+    "ntee": "F220",
+    "category": "mental-health",
+    "rank": 94
+  },
+  {
+    "ein": "510172429",
+    "name": "UNITED JEWISH APPEAL FEDERATION OF JEWISH PHILANTHROPIES OF NY INC",
+    "city": "New York",
+    "revenue": 350493949,
+    "ntee": "T700",
+    "category": "philanthropy",
+    "rank": 95
+  },
+  {
+    "ein": "131760102",
+    "name": "UNITED ISRAEL APPEAL INC",
+    "city": "New York",
+    "revenue": 350481992,
+    "ntee": "Q710",
+    "category": "international",
+    "rank": 96
+  },
+  {
+    "ein": "132637308",
+    "name": "THE MENTAL HEALTH ASSOCIATION OF NEW YORK CITY INC",
+    "city": "New York",
+    "revenue": 347568150,
+    "ntee": "",
+    "category": "unknown",
+    "rank": 97
+  },
+  {
+    "ein": "260076866",
+    "name": "ACACIA NETWORK HOUSING INC",
+    "city": "Bronx",
+    "revenue": 347422708,
+    "ntee": "L41",
+    "category": "housing",
+    "rank": 98
+  },
+  {
+    "ein": "113813663",
+    "name": "GOLDMAN SACHS CHARITABLE GIFT FUND",
+    "city": "New York",
+    "revenue": 343229340,
+    "ntee": "T30",
+    "category": "philanthropy",
+    "rank": 99
+  },
+  {
+    "ein": "112418771",
+    "name": "THE HEALTH SCIENCE CENTER AT",
+    "city": "Brooklyn",
+    "revenue": 340304876,
+    "ntee": "B5BI",
+    "category": "education",
+    "rank": 100
+  }
+]

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}Recommendations{% endblock %}
+{% block content %}
+
+  <div class="content-header">
+    <h1>Recommended Opportunities</h1>
+    <a href="{{ url_for('profile') }}" class="btn">Edit Preferences</a>
+  </div>
+
+  {% if not interests %}
+    <div class="card">
+      <p class="ts">No preferences saved —
+        <a href="{{ url_for('profile') }}">pick your interests</a> to get matches.</p>
+    </div>
+  {% else %}
+    <div class="chip-row">
+      {% for interest in interests %}
+        <span class="chip">{{ interest | capitalize }}</span>
+      {% endfor %}
+    </div>
+
+    <ul class="nonprofit-list">
+      {% for nonprofit in nonprofits %}
+        <li>
+          <div class="nonprofit-thumb">{{ nonprofit.name[:1] }}</div>
+          <div class="nonprofit-info">
+            <strong>{{ nonprofit.name }}</strong>
+            <p class="ts">{{ nonprofit.reason }}</p>
+          </div>
+          <a href="{{ url_for('route', name=nonprofit.name, city=nonprofit.city) }}" class="see-route">See Route</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends "layout.html" %}
+{% block title %}Routes{% endblock %}
+{% block content %}
+  <h1>Routes</h1>
+
+  {% if not destination_name %}
+    <div class="card">
+      <p class="ts">No nonprofit selected —
+        <a href="{{ url_for('recommendations') }}">pick one from your recommendations</a> to see directions.</p>
+    </div>
+  {% else %}
+    <div class="route-grid">
+      <div class="card">
+        <div class="route-name-card">{{ destination_name }}</div>
+        {% if destination_city %}<p class="ts" style="margin-top: -10px;">{{ destination_city }}, NY</p>{% endif %}
+
+        <form id="origin-form" style="margin: 16px 0 20px;">
+          <label for="origin-input" style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:6px;">
+            Starting address
+          </label>
+          <input type="text" id="origin-input" placeholder="e.g. 350 5th Ave, New York, NY"
+                 style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px; font:inherit; margin-bottom:10px;">
+          <button type="submit" class="btn" style="width:100%;">Get directions</button>
+        </form>
+
+        <p class="ts" id="route-status"></p>
+
+        <div class="travel-modes">
+          <button type="button" class="mode-btn" id="btn-WALKING" onclick="selectMode('WALKING')" disabled>
+            <div>
+              <strong>Walking</strong><br>
+              <span class="mode-time" id="time-WALKING">--</span><br>
+              <span id="co2-WALKING">-- kg CO₂</span>
+            </div>
+          </button>
+
+          <button type="button" class="mode-btn" id="btn-BICYCLING" onclick="selectMode('BICYCLING')" disabled>
+            <div>
+              <strong>Bicycling</strong><br>
+              <span class="mode-time" id="time-BICYCLING">--</span><br>
+              <span id="co2-BICYCLING">-- kg CO₂</span>
+            </div>
+          </button>
+
+
+          <button type="button" class="mode-btn" id="btn-DRIVING" onclick="selectMode('DRIVING')" disabled>
+            <div>
+              <strong>Car</strong><br>
+              <span class="mode-time" id="time-DRIVING">--</span><br>
+              <span id="co2-DRIVING">-- kg CO₂</span>
+            </div>
+          </button>
+
+
+          <button type="button" class="mode-btn" id="btn-TRANSIT" onclick="selectMode('TRANSIT')" disabled>
+            <div>
+              <strong>Transit</strong><br>
+              <span class="mode-time" id="time-TRANSIT">--</span><br>
+              <span id="co2-TRANSIT">-- kg CO₂</span>
+            </div>
+          </button>
+
+
+        </div>
+
+        <button type="button" class="btn" id="use-route-btn" style="width:100%; margin-top:16px;"
+                onclick="useRoute()" disabled>
+          Use This Route
+        </button>
+        <p class="ts" id="use-route-feedback" style="margin-top:8px;"></p>
+      </div>
+
+      <div id="map" style="height: 440px; width: 100%">Map</div>
+    </div>
+
+    <script>
+      const DESTINATION = {{ (destination_name + (', ' + destination_city if destination_city else '') + ', NY') | tojson }};
+      const MODES = ["WALKING", "BICYCLING", "DRIVING", "TRANSIT"];
+      const CO2_PER_MILE = {
+          WALKING: 0,
+          BICYCLING: 0,
+          DRIVING: 0.31
+      };
+      const TRANSIT_VEHICLE_CO2_PER_MILE = {
+          SUBWAY: 0.06,
+          RAIL: 0.06,
+          TRAM: 0.08,
+          FERRY: 0.15,
+          BUS: 0.35,
+          default: 0.20 // unknown transit vehicle type
+      };
+      const routeData = {};
+      let map;
+      let directionsService;
+      let directionsRenderer;
+      let activeMode = "DRIVING";
+      let origin = null;
+
+      function initMap() {
+          directionsService = new google.maps.DirectionsService();
+          directionsRenderer = new google.maps.DirectionsRenderer();
+
+          map = new google.maps.Map(document.getElementById("map"), {
+              center: { lat: 40.7128, lng: -74.006 },
+              zoom: 11
+          });
+          directionsRenderer.setMap(map);
+
+          document.getElementById('origin-form').addEventListener('submit', function (e) {
+              e.preventDefault();
+              const value = document.getElementById('origin-input').value.trim();
+              if (!value) return;
+              origin = value;
+              calculateAll();
+          });
+      }
+
+      function computeTransitCO2(leg) {
+          let total = 0;
+          (leg.steps || []).forEach(step => {
+              if (step.travel_mode !== 'TRANSIT') return;
+              const stepMiles = step.distance.value / 1609.34;
+              const vehicleType = step.transit && step.transit.line &&
+                  step.transit.line.vehicle && step.transit.line.vehicle.type;
+              const rate = TRANSIT_VEHICLE_CO2_PER_MILE[vehicleType] ??
+                  TRANSIT_VEHICLE_CO2_PER_MILE.default;
+              total += stepMiles * rate;
+          });
+          return total;
+      }
+
+      function setStatus(msg) {
+          document.getElementById('route-status').textContent = msg;
+      }
+
+      function calculateAll() {
+          setStatus('Looking up directions…');
+          MODES.forEach(mode => fetchModeTime(mode));
+          selectMode(activeMode);
+      }
+
+      function fetchModeTime(mode) {
+          directionsService.route(
+              { origin: origin, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+              function (result, status) {
+                  const timeEl = document.getElementById('time-' + mode);
+                  const btn = document.getElementById('btn-' + mode);
+                  if (status === 'OK') {
+                    const leg = result.routes[0].legs[0];
+                    const miles = leg.distance.value / 1609.34;
+                    const co2 = mode === 'TRANSIT'
+                        ? computeTransitCO2(leg)
+                        : miles * CO2_PER_MILE[mode];
+                    routeData[mode] = {
+                        time: leg.duration.value,
+                        distance: miles,
+                        co2: co2
+                    };
+                    timeEl.textContent = leg.duration.text;
+                    document.getElementById(
+                        "co2-" + mode
+                    ).textContent = co2.toFixed(2) + " kg CO₂";
+                    btn.disabled = false;
+
+                    highlightRoutes();
+                  } else {
+                      timeEl.textContent = 'N/A';
+                      btn.disabled = true;
+                  }
+              }
+          );
+      }
+
+      function highlightRoutes() {
+          const modes = Object.keys(routeData);
+          document.querySelectorAll(".mode-btn").forEach(btn => {
+              btn.classList.remove("recommended");
+          });
+          let fastest = modes[0];
+          modes.forEach(mode => {
+              if (routeData[mode].time < routeData[fastest].time) {
+                  fastest = mode;
+              }
+          });
+          const fastestTime = routeData[fastest].time;
+          let recommended= null;
+          // #1: 0 CO₂ route if <10 minutes
+          modes.forEach(mode => {
+              if (routeData[mode].co2 === 0 && routeData[mode].time <= fastestTime + 600) {
+                  if (recommended === null || routeData[mode].time < routeData[recommended].time) {
+                      recommended = mode;
+                  }
+              }
+          });
+          //lowest co2 route for 1.2 of fastest
+          if (recommended === null) {
+              const maxTime = fastestTime * 1.2;
+              modes.forEach(mode => {
+                  if (routeData[mode].time <= maxTime) {
+                      if (recommended === null || routeData[mode].co2 < routeData[recommended].co2) {
+                        recommended = mode;
+                      }
+                  }
+              });
+          }
+          // else fsatest
+          if (recommended === null) {
+              recommended = fastest;
+          }
+          document
+              .getElementById("btn-" + recommended)
+              .classList.add("recommended");
+      }
+
+      function selectMode(mode) {
+          if (!origin) return;
+          activeMode = mode;
+          document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+          document.getElementById('btn-' + mode).classList.add('active');
+
+          const useRouteBtn = document.getElementById('use-route-btn');
+          useRouteBtn.disabled = true;
+          document.getElementById('use-route-feedback').textContent = '';
+
+          directionsService.route(
+              { origin: origin, destination: DESTINATION, travelMode: google.maps.TravelMode[mode] },
+              function (result, status) {
+                  if (status === 'OK') {
+                      directionsRenderer.setDirections(result);
+                      setStatus('');
+                      useRouteBtn.disabled = false;
+                  } else if (status === 'ZERO_RESULTS' || status === 'NOT_FOUND') {
+                      setStatus("Couldn't find a route.");
+                  } else {
+                      setStatus('Direction request error: ' + status);
+                  }
+              }
+          );
+      }
+
+      function useRoute() {
+          const useRouteBtn = document.getElementById('use-route-btn');
+          const feedback = document.getElementById('use-route-feedback');
+          const chosen = routeData[activeMode];
+          const driving = routeData["DRIVING"];
+
+          if (!chosen) return;
+
+          const saved = driving ? driving.co2 - chosen.co2 : 0;
+
+          if (saved > 0) {
+              fetch("/save_route", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ co2_saved: saved })
+              })
+              .then(res => {
+                  if (!res.ok) throw new Error('Request failed');
+                  feedback.textContent =
+                      `${saved.toFixed(2)} kg CO₂ saved. Added to your profile.`;
+              })
+              .catch(() => {
+                  feedback.textContent = "Couldn't save this route.";
+              });
+          } else {
+              feedback.textContent = "This option doesn't save any CO₂ compared to driving.";
+          }
+          useRouteBtn.disabled = true;
+      }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&callback=initMap&loading=async" async></script>
+  {% endif %}
+
+{% endblock %}

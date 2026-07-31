@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Volunteer Match{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    {% if session.get('user_email') %}
+      <aside class="sidebar">
+        <div class="sidebar-brand">VolunteerMatch</div>
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('profile') }}" {% if request.endpoint == 'profile' %}class="active"{% endif %}>Profile</a>
+          <a href="{{ url_for('recommendations') }}" {% if request.endpoint == 'recommendations' %}class="active"{% endif %}>Recommendations</a>
+          <a href="{{ url_for('route') }}" {% if request.endpoint == 'route' %}class="active"{% endif %}>Routes</a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="{{ url_for('logout') }}">Log out</a>
+        </div>
+      </aside>
+    {% endif %}
+    <main class="content {% if not session.get('user_email') %}content-full{% endif %}">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

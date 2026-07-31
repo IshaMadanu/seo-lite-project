@@ -14,3 +14,4 @@ Werkzeug==2.3.6
 python-dotenv
 boto3
 moto[dynamodb]
+anthropic

@@ -5,11 +5,59 @@ from functools import wraps
 from itertools import zip_longest
 from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+
+import anthropic
 import dynamo
 
 load_dotenv()
 
 INTEREST_OPTIONS = ["animals", "environment", "education"]
+
+SUMMARY_MODEL = "claude-haiku-4-5"
+
+
+def summarize_nonprofits(client, nonprofits):
+    """Ask Claude for a 2-sentence summary of each nonprofit, in order."""
+    if not client or not nonprofits:
+        return [None] * len(nonprofits)
+
+    listing = "\n".join(
+        f"{i}. {org['name']} ({org['city']})" if org["city"] else f"{i}. {org['name']}"
+        for i, org in enumerate(nonprofits)
+    )
+    try:
+        response = client.messages.create(
+            model=SUMMARY_MODEL,
+            max_tokens=1024,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Write a 2-sentence summary of what each nonprofit below "
+                    "does, based on its name and city. Keep each summary "
+                    "factual and neutral.\n\n" + listing
+                ),
+            }],
+            output_config={"format": {
+                "type": "json_schema",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "summaries": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                        }
+                    },
+                    "required": ["summaries"],
+                    "additionalProperties": False,
+                },
+            }},
+        )
+    except anthropic.APIError:
+        return [None] * len(nonprofits)
+
+    text = next(b.text for b in response.content if b.type == "text")
+    summaries = json.loads(text)["summaries"]
+    return summaries[:len(nonprofits)] + [None] * (len(nonprofits) - len(summaries))
 
 # top 100 NYC nonprofits by revenue (IRS BMF; see scripts/build_nonprofits.py)
 NONPROFITS_FILE = Path(__file__).parent / "data" / "nonprofits.json"
@@ -37,6 +85,10 @@ def create_app(resource=None):
 
     db = dynamo.create_tables(resource)
     app.config['DYNAMO'] = db
+    try:
+        app.config['CLAUDE'] = anthropic.Anthropic()
+    except Exception:
+        app.config['CLAUDE'] = None
     dynamo.create_user(
         db, TEST_USER["email"], TEST_USER["password"], name=TEST_USER["name"]
     )
@@ -115,6 +167,11 @@ def create_app(resource=None):
             for org in round_
             if org is not None
         ][:5]
+
+        if not app.testing:
+            summaries = summarize_nonprofits(app.config['CLAUDE'], nonprofits)
+            for org, summary in zip(nonprofits, summaries):
+                org["summary"] = summary
 
         return render_template(
             "recommendations.html", nonprofits=nonprofits, interests=interests
